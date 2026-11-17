@@ -1,4 +1,4 @@
-# E-Commerce Product Scraper & SQL Database
+# E-Commerce Product Scraper & Market Research Tool
 
 This is a Python command-line application built to collect product details from an online store and organize them into a local SQLite database for basic market research. The project combines web scraping (`requests` and `BeautifulSoup`) with relational database management (`sqlite3`).
 
@@ -11,12 +11,12 @@ This is a Python command-line application built to collect product details from 
 - **Duplicate Handling:** Uses a `UNIQUE` constraint on the `product_url` column along with `INSERT OR IGNORE` so running the scraper multiple times does not create duplicate entries.
 - **Database Management (CRUD):** Supports adding new products manually, viewing all saved records, updating prices by product ID, and deleting records.
 - **Search & Price Filtering:** Allows searching products using partial keywords and filtering items within a minimum and maximum price range.
-- **Price Summary:** Uses SQL queries (`MIN`/`ORDER BY`, `MAX`, and `AVG`) to find the cheapest book, the most expensive book, and the average price across the dataset.
+- **Price Summary:** Uses SQL queries (`ORDER BY` with `LIMIT 1` and `AVG`) to find the cheapest book, the most expensive book, and the average price across the dataset.
 - **CSV Export:** Exports all records from the SQLite database into a `products_export.csv` file for viewing in Excel or Google Sheets.
 
 ## Project Structure
 ```text
-ecommerce-product-scraper/
+E-Commerce-Product-Scraper/
 ├── database.py           # SQLite table setup, CRUD functions, search, and analytics queries
 ├── scraper.py            # Web scraping logic with error handling and rate limiting
 ├── main.py               # Interactive CLI menu to run all operations
@@ -29,10 +29,10 @@ ecommerce-product-scraper/
 
 ## Setup & Installation
 
-1. **Clone or download the project folder:**
+1. **Clone the repository:**
    ```bash
-   git clone <your-repository-link>
-   cd ecommerce-product-scraper
+   git clone https://github.com/Saiful-Islam-Cyber/E-Commerce-Product-Scraper.git
+   cd E-Commerce-Product-Scraper
    ```
 
 2. **Install the required libraries:**
@@ -54,4 +54,3 @@ ecommerce-product-scraper/
 ## Notes on Error Handling
 - Network issues or invalid HTTP responses during scraping are caught using `requests.RequestException` so the program does not crash unexpectedly.
 - Invalid user inputs (such as entering text instead of numbers for prices or product IDs) are handled with `try-except` blocks to keep the menu running smoothly.
-
