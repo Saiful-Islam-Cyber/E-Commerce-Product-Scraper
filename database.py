@@ -3,8 +3,10 @@ import csv
 
 DB_NAME = "products.db"
 
+
 def get_connection():
     return sqlite3.connect(DB_NAME)
+
 
 def initialize_db():
     """Creates the products table if it does not exist."""
@@ -26,6 +28,7 @@ def initialize_db():
     finally:
         conn.close()
 
+
 def insert_product(name, price, availability, product_url):
     """Inserts a new product, ignoring duplicates based on product_url."""
     try:
@@ -36,12 +39,13 @@ def insert_product(name, price, availability, product_url):
             VALUES (?, ?, ?, ?)
         ''', (name, price, availability, product_url))
         conn.commit()
-        return cursor.rowcount > 0  # Returns True if a new row was inserted
+        return cursor.rowcount > 0
     except sqlite3.Error as e:
         print(f"Error inserting product: {e}")
         return False
     finally:
         conn.close()
+
 
 def get_all_products():
     """Retrieves all products from the database."""
@@ -52,6 +56,7 @@ def get_all_products():
     conn.close()
     return rows
 
+
 def search_by_name(keyword):
     """Searches products matching the keyword."""
     conn = get_connection()
@@ -61,6 +66,7 @@ def search_by_name(keyword):
     conn.close()
     return rows
 
+
 def filter_by_price(min_price, max_price):
     """Filters products within a given price range."""
     conn = get_connection()
@@ -69,6 +75,7 @@ def filter_by_price(min_price, max_price):
     rows = cursor.fetchall()
     conn.close()
     return rows
+
 
 def update_product_price(product_id, new_price):
     """Updates the price of a specific product by ID."""
@@ -80,6 +87,7 @@ def update_product_price(product_id, new_price):
     conn.close()
     return updated
 
+
 def delete_product(product_id):
     """Deletes a product record by ID."""
     conn = get_connection()
@@ -90,22 +98,24 @@ def delete_product(product_id):
     conn.close()
     return deleted
 
+
 def get_price_analytics():
     """Returns cheapest product, most expensive product, and average price."""
     conn = get_connection()
     cursor = conn.cursor()
-    
+
     cursor.execute("SELECT name, price FROM products ORDER BY price ASC LIMIT 1")
     cheapest = cursor.fetchone()
-    
+
     cursor.execute("SELECT name, price FROM products ORDER BY price DESC LIMIT 1")
     most_expensive = cursor.fetchone()
-    
+
     cursor.execute("SELECT AVG(price) FROM products")
-    avg_price = cursor.fetchone()[0]
-    
+    avg_price = cursor.fetchone()
+
     conn.close()
     return cheapest, most_expensive, avg_price
+
 
 def export_to_csv(filename="products_export.csv"):
     """Bonus: Exports all database records to a CSV file."""

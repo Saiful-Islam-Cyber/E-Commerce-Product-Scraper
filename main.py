@@ -1,6 +1,7 @@
 import database as db
 from scraper import scrape_books
 
+
 def display_products(products):
     if not products:
         print("\nNo products found.")
@@ -9,9 +10,10 @@ def display_products(products):
     print(f"{'ID':<4} | {'Product Name':<40} | {'Price (£)':<10} | {'Availability':<15}")
     print("-" * 85)
     for p in products:
-        short_name = (p[1][:37] + "...") if len(p[1]) > 40 else p[1]
-        print(f"{p[0]:<4} | {short_name:<40} | {p[2]:<10.2f} | {p[3]:<15}")
+        short_name = (p[:37] + "...") if len(p) > 40 else p
+        print(f"{p:<4} | {short_name:<40} | {p:<10.2f} | {p:<15}")
     print("-" * 85)
+
 
 def main():
     db.initialize_db()
@@ -32,7 +34,7 @@ def main():
         choice = input("\nEnter your choice (0-9): ").strip()
 
         if choice == "1":
-            scrape_books(pages=2)  # Collects 40 products (20 per page)
+            scrape_books(pages=2)
 
         elif choice == "2":
             products = db.get_all_products()
@@ -91,8 +93,8 @@ def main():
             cheapest, expensive, avg = db.get_price_analytics()
             if cheapest and expensive:
                 print("\n--- Price Analytics ---")
-                print(f"Cheapest Product      : {cheapest[0]} (£{cheapest[1]:.2f})")
-                print(f"Most Expensive Product: {expensive[0]} (£{expensive[1]:.2f})")
+                print(f"Cheapest Product      : {cheapest} (£{cheapest:.2f})")
+                print(f"Most Expensive Product: {expensive} (£{expensive:.2f})")
                 print(f"Average Product Price : £{avg:.2f}")
             else:
                 print("Database is empty. Please scrape or add products first.")
@@ -106,6 +108,7 @@ def main():
 
         else:
             print("Invalid choice. Please select between 0 and 9.")
+
 
 if __name__ == "__main__":
     main()

@@ -6,6 +6,7 @@ from database import insert_product
 
 
 def scrape_books(pages=2):
+    """Scrapes product details from Books to Scrape across specified pages."""
     added_count = 0
     skipped_count = 0
 
